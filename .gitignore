@@ -1,0 +1,5 @@
+sonatype-nexus-repository-3.90.1-01.jar
+javaagent/target
+.specstory
+**/.DS_Store
+nexus-data/

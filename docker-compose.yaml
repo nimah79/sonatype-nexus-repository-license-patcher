@@ -1,0 +1,11 @@
+services:
+  nexus:
+    image: docker.mobinhost.com/sonatype/nexus3:3.90.1-alpine
+    volumes:
+      - "./nexus-data:/opt/sonatype/sonatype-work"
+      - "./nexus-repository-license-bypass-agent-1.0-SNAPSHOT.jar:/opt/sonatype/nexus/bin/nexus-repository-license-bypass-agent-1.0-SNAPSHOT.jar"
+      - "./nexus:/opt/sonatype/nexus/bin/nexus"
+      - "./nexus.bat:/opt/sonatype/nexus/bin/nexus.bat"
+    ports:
+      - "8081:8081"
+      - "8085:8085"
