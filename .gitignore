@@ -3,3 +3,4 @@ javaagent/target
 .specstory
 **/.DS_Store
 nexus-data/
+.vscode/
