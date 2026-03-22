@@ -1,4 +1,4 @@
-package com.example.agent;
+package com.nimah79.agent;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;

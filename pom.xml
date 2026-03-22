@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
+    <groupId>com.nimah79</groupId>
     <artifactId>nexus-repository-license-bypass-agent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>Nexus Repository License Bypass Agent</name>
@@ -32,19 +32,19 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
                             <!-- Required: Specifies the agent class with premain method -->
-                            <Premain-Class>com.example.agent.NexusLicenseAgent</Premain-Class>
+                            <Premain-Class>com.nimah79.agent.NexusLicenseAgent</Premain-Class>
                             
                             <!-- Optional: Enable class redefinition -->
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             
                             <!-- Optional: Agent version -->
-                            <Agent-Class>com.example.agent.NexusLicenseAgent</Agent-Class>
+                            <Agent-Class>com.nimah79.agent.NexusLicenseAgent</Agent-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -54,7 +54,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.6.2</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -66,12 +66,12 @@
                             <outputFile>${project.build.directory}/${project.build.finalName}.jar</outputFile>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.example.agent.NexusLicenseAgent</mainClass>
+                                    <mainClass>com.nimah79.agent.NexusLicenseAgent</mainClass>
                                     <manifestEntries>
-                                        <Premain-Class>com.example.agent.NexusLicenseAgent</Premain-Class>
+                                        <Premain-Class>com.nimah79.agent.NexusLicenseAgent</Premain-Class>
                                         <Can-Redefine-Classes>true</Can-Redefine-Classes>
                                         <Can-Retransform-Classes>true</Can-Retransform-Classes>
-                                        <Agent-Class>com.example.agent.NexusLicenseAgent</Agent-Class>
+                                        <Agent-Class>com.nimah79.agent.NexusLicenseAgent</Agent-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>

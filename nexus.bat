@@ -230,7 +230,7 @@ if "%EXTRA_JAVA_OPTS%" == "" goto :KARAF_EXTRA_JAVA_OPTS_END
 :KARAF_EXTRA_JAVA_OPTS_END
 
 rem Java agent for license bypass
-set "JAVA_AGENT_OPTS=-javaagent:%KARAF_HOME%\bin\nexus-repository-license-bypass-agent-1.0-SNAPSHOT.jar"
+set "JAVA_AGENT_OPTS=-javaagent:%KARAF_HOME%\bin\nexus-repository-license-bypass-agent-1.0.jar"
 
 if "%KARAF_DEBUG%" == "" goto :KARAF_DEBUG_END
     if "%1" == "stop" goto :KARAF_DEBUG_END

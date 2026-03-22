@@ -353,7 +353,7 @@ setupDefaults() {
     #DEFAULT_JAVA_DEBUG_OPTS="-Xrunyjpagent"
 
     # Java agent for license bypass
-    JAVA_AGENT_OPTS="-javaagent:${KARAF_HOME}/bin/nexus-repository-license-bypass-agent-1.0-SNAPSHOT.jar"
+    JAVA_AGENT_OPTS="-javaagent:${KARAF_HOME}/bin/nexus-repository-license-bypass-agent-1.0.jar"
 }
 
 convertPaths() {
