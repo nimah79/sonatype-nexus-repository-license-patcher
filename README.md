@@ -1,6 +1,6 @@
-# Sonatype Nexus Repository License Bypass Agent
+# [Sonatype Nexus Repository](https://www.sonatype.com/products/sonatype-nexus-repository) License Bypass Agent
 
-A javaagent that patches Sonatype Nexus Repository license managers to bypass license verification
+A javaagent that patches [Sonatype Nexus Repository](https://www.sonatype.com/products/sonatype-nexus-repository) license managers to bypass license verification
 
 Latest tested version: [3.90.1](https://help.sonatype.com/en/sonatype-nexus-repository-3-90-0-release-notes.html)
 
