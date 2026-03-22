@@ -8,10 +8,9 @@ Latest tested version: [3.90.1](https://help.sonatype.com/en/sonatype-nexus-repo
 
 ## Build
 
-The prebuilt jar file of the javaagent is available in `nexus-repository-license-bypass-agent-1.0.jar`. However, if you have modified the source code, you can build the jar file using the following commands:
+The prebuilt jar file of the javaagent is available in `nexus-repository-license-bypass-agent-1.0.jar`. However, if you have modified the source code, you can build the jar file using the following command:
 
 ```bash
-cd javaagent
 mvn clean package
 ```
 
@@ -41,9 +40,9 @@ Note: It seems that only the `org.sonatype.licensing.trial.internal.DefaultTrial
 
 Methods like `verifyLicense` and `installLicense` are patched to return a fake professional license:
 
-- **Contact Name**: Juniora
-- **Contact Company**: https://juniora.org
-- **Contact Email**: info@juniora.org
+- **Contact Name**: nimah79
+- **Contact Company**: nimah79
+- **Contact Email**: info@nimah79.ir
 - **Contact Telephone**: 11011001110
 - **Contact Country**: Iran
 - **Evaluation**: false
@@ -59,7 +58,7 @@ Methods like `verifyLicense` and `installLicense` are patched to return a fake p
 JVM Start
     │
     ▼
-Load javaagent.jar
+Load nexus-repository-license-bypass-agent-1.0.jar
     │
     ▼
 Call NexusLicenseAgent.premain()

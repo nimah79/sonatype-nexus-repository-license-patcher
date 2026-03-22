@@ -68,9 +68,9 @@ public class NexusLicenseAgent {
         return "{\n" +
             "    System.out.flush();\n" +
             "    org.sonatype.licensing.LicenseKey licenseKey = (org.sonatype.licensing.LicenseKey)this.ooh.get();\n" +
-            "    licenseKey.setContactName(\"Juniora\");\n" +
-            "    licenseKey.setContactCompany(\"https://juniora.org\");\n" +
-            "    licenseKey.setContactEmailAddress(\"info@juniora.org\");\n" +
+            "    licenseKey.setContactName(\"nimah79\");\n" +
+            "    licenseKey.setContactCompany(\"nimah79\");\n" +
+            "    licenseKey.setContactEmailAddress(\"info@nimah79.ir\");\n" +
             "    licenseKey.setContactTelephone(\"11011001110\");\n" +
             "    licenseKey.setContactCountry(\"Iran\");\n" +
             "    licenseKey.setEvaluation(false);\n" +
