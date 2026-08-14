@@ -66,14 +66,14 @@ public class NexusLicenseAgent {
     }
 
     /**
-     * Finds the javax.inject.Provider field in the class by type, not by name.
+     * Finds the jakarta.inject.Provider (javax.inject.Provider in <3.94.0) field in the class by type, not by name.
      * The field is obfuscated and its name changes between Nexus versions
      * (e.g. "ooh" in 3.90.x, "lhz" in 3.93.x).
      */
     private static String findProviderFieldName(CtClass ctClass) throws Exception {
         for (javassist.CtField f : ctClass.getDeclaredFields()) {
             try {
-                if (f.getType().getName().equals("javax.inject.Provider")) {
+                if (f.getType().getName().equals("jakarta.inject.Provider") || f.getType().getName().equals("javax.inject.Provider")) {
                     System.out.println("[NexusLicenseAgent] Detected Provider field: " + f.getName()
                             + " (Nexus version compatibility)");
                     return f.getName();

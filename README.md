@@ -2,7 +2,7 @@
 
 A javaagent that patches [Sonatype Nexus Repository](https://www.sonatype.com/products/sonatype-nexus-repository) license managers to bypass license verification
 
-Latest tested version: [3.90.1](https://help.sonatype.com/en/sonatype-nexus-repository-3-90-0-release-notes.html)
+Latest tested version: [3.95.1](https://help.sonatype.com/en/sonatype-nexus-repository-3-90-0-release-notes.html)
 
 **⚠️ YOU SHOULD NEVER USE THIS PROJECT TO CRACK/PATCH/ ILLEGAL USE SONATYPE NEXUS REPOSITORY. THIS PROJECT IS FOR EDUCATIONAL PURPOSES! THE CONSEQUENCES CAUSED BY THE USE OF THIS SOFTWARE SHALL BE BORNE BY THE USER.**
 
