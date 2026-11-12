@@ -98,7 +98,10 @@ public class NexusLicenseAgent {
             "    licenseKey.setExpirationDate(new java.util.Date(2038 - 1900, 1, 1));\n" +
             "    licenseKey.setEffectiveDate(new java.util.Date(2015 - 1900, 1, 1));\n" +
             "    org.sonatype.licensing.feature.FeatureSet fs = new org.sonatype.licensing.feature.FeatureSet();\n" +
-            "    fs.addFeature(new com.sonatype.nexus.bootstrap.entrypoint.licensing.NexusProfessionalFeature());\n" +
+            "    com.sonatype.nexus.bootstrap.entrypoint.licensing.NexusProfessionalFeature proFeature = new com.sonatype.nexus.bootstrap.entrypoint.licensing.NexusProfessionalFeature();\n" +
+            "    fs.addFeature(proFeature);\n" +
+            "    fs.addFeature(new com.sonatype.nexus.bootstrap.entrypoint.saml.SamlFeature(proFeature));\n" +
+            "    fs.addFeature(new com.sonatype.nexus.bootstrap.entrypoint.oauth2.OAuth2Feature(proFeature));\n" +
             "    licenseKey.setFeatureSet(fs);\n" +
             "    System.out.flush();\n" +
             "    return licenseKey;\n" +

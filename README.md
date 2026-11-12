@@ -2,7 +2,7 @@
 
 A javaagent that patches [Sonatype Nexus Repository](https://www.sonatype.com/products/sonatype-nexus-repository) license managers to bypass license verification
 
-Latest tested version: [3.90.1](https://help.sonatype.com/en/sonatype-nexus-repository-3-90-0-release-notes.html)
+Latest tested version: [3.93.0](https://help.sonatype.com/en/sonatype-nexus-repository-3-93-0-release-notes.html) (also verified on 3.90.1)
 
 **⚠️ YOU SHOULD NEVER USE THIS PROJECT TO CRACK/PATCH/ ILLEGAL USE SONATYPE NEXUS REPOSITORY. THIS PROJECT IS FOR EDUCATIONAL PURPOSES! THE CONSEQUENCES CAUSED BY THE USE OF THIS SOFTWARE SHALL BE BORNE BY THE USER.**
 
@@ -48,7 +48,13 @@ Methods like `verifyLicense` and `installLicense` are patched to return a fake p
 - **Evaluation**: false
 - **Expiration Date**: 2038-01-01
 - **Effective Date**: 2015-01-01
-- **Features**: NexusProfessionalFeature
+- **Features**: NexusProfessionalFeature, SamlFeature, OAuth2Feature
+
+The SAML and OAuth2 features are required for the SAML SSO Realm and the OIDC
+(OAuth2) realm: without them Nexus authenticates the user against the IdP but
+rejects the login with `SamlRealm - Unable to login ... due to license limitation`
+(`LicenseFeatureVerifier` checks the license `FeatureSet` for feature id `saml` /
+`oauth2`).
 
 ![Sonatype Nexus Repository Pro Licensing Page](images/sonatype-nexus-repository-licensing-page.jpg)
 
