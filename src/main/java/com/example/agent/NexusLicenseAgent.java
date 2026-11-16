@@ -25,7 +25,8 @@ public class NexusLicenseAgent {
                     byte[] classfileBuffer) {
                 
                 if (!className.equals("org/sonatype/licensing/internal/DefaultLicenseManager") &&
-                    !className.equals("org/sonatype/licensing/trial/internal/DefaultTrialLicenseManager")) {
+                    !className.equals("org/sonatype/licensing/trial/internal/DefaultTrialLicenseManager") &&
+                    !className.equals("org/sonatype/licensing/internal/DefaultFeatureValidator")) {
                     return null;
                 }
                 
@@ -46,6 +47,13 @@ public class NexusLicenseAgent {
                     if (className.equals("org/sonatype/licensing/trial/internal/DefaultTrialLicenseManager")) {
                         byte[] result = patchDefaultTrialLicenseManager(classfileBuffer);
                         System.out.println("[NexusLicenseAgent] Successfully patched DefaultTrialLicenseManager");
+                        System.out.flush();
+                        return result;
+                    }
+
+                    if (className.equals("org/sonatype/licensing/internal/DefaultFeatureValidator")) {
+                        byte[] result = patchDefaultFeatureValidator(classfileBuffer);
+                        System.out.println("[NexusLicenseAgent] Successfully patched DefaultFeatureValidator");
                         System.out.flush();
                         return result;
                     }
@@ -100,8 +108,7 @@ public class NexusLicenseAgent {
             "    org.sonatype.licensing.feature.FeatureSet fs = new org.sonatype.licensing.feature.FeatureSet();\n" +
             "    com.sonatype.nexus.bootstrap.entrypoint.licensing.NexusProfessionalFeature proFeature = new com.sonatype.nexus.bootstrap.entrypoint.licensing.NexusProfessionalFeature();\n" +
             "    fs.addFeature(proFeature);\n" +
-            "    fs.addFeature(new com.sonatype.nexus.bootstrap.entrypoint.saml.SamlFeature(proFeature));\n" +
-            "    fs.addFeature(new com.sonatype.nexus.bootstrap.entrypoint.oauth2.OAuth2Feature(proFeature));\n" +
+            "    com.nimah79.agent.LicenseFeaturePatcher.populate(licenseKey, fs, proFeature);\n" +
             "    licenseKey.setFeatureSet(fs);\n" +
             "    System.out.flush();\n" +
             "    return licenseKey;\n" +
@@ -198,6 +205,25 @@ public class NexusLicenseAgent {
         return ctClass.toBytecode();
     }
     
+    private static byte[] patchDefaultFeatureValidator(byte[] originalBytecode) throws Exception {
+        ClassPool pool = ClassPool.getDefault();
+        CtClass ctClass = pool.makeClass(new java.io.ByteArrayInputStream(originalBytecode));
+
+        for (CtMethod method : ctClass.getDeclaredMethods()) {
+            if (method.getName().equals("isValid")) {
+                method.setBody("return true;");
+                System.out.println("[NexusLicenseAgent] - isValid patched");
+            } else if (method.getName().equals("validate")) {
+                method.setBody("{}");
+                System.out.println("[NexusLicenseAgent] - validate patched");
+            }
+        }
+
+        System.out.flush();
+        System.err.flush();
+        return ctClass.toBytecode();
+    }
+
     public static void agentmain(String agentArgs, Instrumentation inst) {
         premain(agentArgs, inst);
     }

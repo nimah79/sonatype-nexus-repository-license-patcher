@@ -33,6 +33,7 @@ docker build -t nexus:latest .
 The agent intercepts and patches these classes:
 - `org.sonatype.licensing.internal.DefaultLicenseManager`
 - `org.sonatype.licensing.trial.internal.DefaultTrialLicenseManager`
+- `org.sonatype.licensing.internal.DefaultFeatureValidator`
 
 The Java source code of these classes are extracted from the jar file in the original Nexus Docker image using [jadx-gui](https://github.com/skylot/jadx).
 
@@ -48,13 +49,19 @@ Methods like `verifyLicense` and `installLicense` are patched to return a fake p
 - **Evaluation**: false
 - **Expiration Date**: 2038-01-01
 - **Effective Date**: 2015-01-01
-- **Features**: NexusProfessionalFeature, SamlFeature, OAuth2Feature
+- **Features**: every licensed feature that exists in the running Nexus version
+  (NexusProfessionalFeature, SamlFeature, OAuth2Feature, GroupWriteFeature,
+  ExportImportFeature, etc.)
 
-The SAML and OAuth2 features are required for the SAML SSO Realm and the OIDC
-(OAuth2) realm: without them Nexus authenticates the user against the IdP but
-rejects the login with `SamlRealm - Unable to login ... due to license limitation`
-(`LicenseFeatureVerifier` checks the license `FeatureSet` for feature id `saml` /
-`oauth2`).
+Every feature-gated capability in Nexus is checked through
+`LicenseFeatureVerifier`, which matches the feature id (e.g. `saml`, `oauth2`,
+`groupWrite`, `exportImport`) against the license `FeatureSet` and rejects with
+e.g. `License does not permit use of feature 'groupWrite'` or
+`Repository export is not licensed!` when the id is absent. The fake license
+therefore registers all known feature classes (looked up reflectively in the
+Nexus class loader, so versions without a feature simply skip it), and in
+addition `DefaultFeatureValidator` is patched to accept every feature, so
+functionality keeps working even for features that are not in the list.
 
 ![Sonatype Nexus Repository Pro Licensing Page](images/sonatype-nexus-repository-licensing-page.jpg)
 
