@@ -105,14 +105,14 @@ public class NexusLicenseAgent {
             "    System.out.println(\"[NexusLicenseAgent PATCHED] returning fake Pro license\");\n" +
             "    System.out.flush();\n" +
             "    org.sonatype.licensing.LicenseKey licenseKey = (org.sonatype.licensing.LicenseKey)this." + providerFieldName + ".get();\n" +
-            "    licenseKey.setContactName(\"nimah79\");\n" +
-            "    licenseKey.setContactCompany(\"nimah79\");\n" +
-            "    licenseKey.setContactEmailAddress(\"info@nimah79.ir\");\n" +
-            "    licenseKey.setContactTelephone(\"11011001110\");\n" +
-            "    licenseKey.setContactCountry(\"Iran\");\n" +
+            "    licenseKey.setContactName(com.nimah79.agent.LicenseConfig.contactName());\n" +
+            "    licenseKey.setContactCompany(com.nimah79.agent.LicenseConfig.contactCompany());\n" +
+            "    licenseKey.setContactEmailAddress(com.nimah79.agent.LicenseConfig.contactEmail());\n" +
+            "    licenseKey.setContactTelephone(com.nimah79.agent.LicenseConfig.contactTelephone());\n" +
+            "    licenseKey.setContactCountry(com.nimah79.agent.LicenseConfig.contactCountry());\n" +
             "    licenseKey.setEvaluation(false);\n" +
-            "    licenseKey.setExpirationDate(new java.util.Date(2038 - 1900, 1, 1));\n" +
-            "    licenseKey.setEffectiveDate(new java.util.Date(2015 - 1900, 1, 1));\n" +
+            "    licenseKey.setExpirationDate(new java.util.Date(com.nimah79.agent.LicenseConfig.expirationDate()));\n" +
+            "    licenseKey.setEffectiveDate(new java.util.Date(com.nimah79.agent.LicenseConfig.effectiveDate()));\n" +
             "    org.sonatype.licensing.feature.FeatureSet fs = new org.sonatype.licensing.feature.FeatureSet();\n" +
             "    com.sonatype.nexus.bootstrap.entrypoint.licensing.NexusProfessionalFeature proFeature = new com.sonatype.nexus.bootstrap.entrypoint.licensing.NexusProfessionalFeature();\n" +
             "    fs.addFeature(proFeature);\n" +

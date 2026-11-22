@@ -28,6 +28,62 @@ docker compose up
 docker build -t nexus:latest .
 ```
 
+## Customizing the Fake License
+
+The contact info and dates of the fake license are fully configurable via
+environment variables (preferred) or JVM system properties. Any variable that
+is not set falls back to the default value shown below.
+
+| Environment Variable | Default | Description |
+|---|---|---|
+| `NEXUS_LICENSE_CONTACT_NAME` | `nimah79` | Contact name |
+| `NEXUS_LICENSE_CONTACT_COMPANY` | `nimah79` | Contact company |
+| `NEXUS_LICENSE_CONTACT_EMAIL` | `info@nimah79.ir` | Contact email address |
+| `NEXUS_LICENSE_CONTACT_TELEPHONE` | `11011001110` | Contact telephone |
+| `NEXUS_LICENSE_CONTACT_COUNTRY` | `Iran` | Contact country |
+| `NEXUS_LICENSE_EFFECTIVE_DATE` | `2015-01-01` | License effective date (`yyyy-MM-dd`) |
+| `NEXUS_LICENSE_EXPIRATION_DATE` | `2038-01-01` | License expiration date (`yyyy-MM-dd`) |
+
+### Via environment variables
+
+Docker Compose (add to the `nexus` service in `docker-compose.yaml`):
+
+```yaml
+services:
+  nexus:
+    environment:
+      NEXUS_LICENSE_CONTACT_NAME: "Jane Doe"
+      NEXUS_LICENSE_CONTACT_COMPANY: "ACME Corp"
+      NEXUS_LICENSE_CONTACT_EMAIL: "jane@acme.com"
+      NEXUS_LICENSE_CONTACT_TELEPHONE: "+1 555 0100"
+      NEXUS_LICENSE_CONTACT_COUNTRY: "USA"
+      NEXUS_LICENSE_EFFECTIVE_DATE: "2020-01-01"
+      NEXUS_LICENSE_EXPIRATION_DATE: "2099-12-31"
+```
+
+Plain shell (e.g. when running `java -jar nexus...` directly):
+
+```bash
+export NEXUS_LICENSE_CONTACT_NAME="Jane Doe"
+export NEXUS_LICENSE_EXPIRATION_DATE="2099-12-31"
+```
+
+### Via JVM flags
+
+The same variables can also be passed as JVM system properties, e.g. in the
+`JAVA_OPTIONS`/`INSTALL4J_ADD_VM_PARAMS` used to start Nexus:
+
+```bash
+java -DNEXUS_LICENSE_CONTACT_NAME="Jane Doe" \
+     -DNEXUS_LICENSE_EXPIRATION_DATE="2099-12-31" \
+     -javaagent:nexus-repository-license-bypass-agent-1.0.jar -jar nexus...
+```
+
+Environment variables take precedence over JVM flags. Invalid dates are
+ignored with a warning and the default date is used instead. The resolved
+values are printed to the Nexus log at startup
+(`[NexusLicenseAgent] License contact info: ...`).
+
 ## What the Agent Does
 
 The agent intercepts and patches these classes:

@@ -9,3 +9,12 @@ services:
     ports:
       - "8081:8081"
       - "8085:8085"
+    # Optional: customize the fake license contact info and dates
+    # environment:
+    #   NEXUS_LICENSE_CONTACT_NAME: "Jane Doe"
+    #   NEXUS_LICENSE_CONTACT_COMPANY: "ACME Corp"
+    #   NEXUS_LICENSE_CONTACT_EMAIL: "jane@acme.com"
+    #   NEXUS_LICENSE_CONTACT_TELEPHONE: "+1 555 0100"
+    #   NEXUS_LICENSE_CONTACT_COUNTRY: "USA"
+    #   NEXUS_LICENSE_EFFECTIVE_DATE: "2020-01-01"
+    #   NEXUS_LICENSE_EXPIRATION_DATE: "2099-12-31"
