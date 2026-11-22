@@ -26,7 +26,8 @@ public class NexusLicenseAgent {
                 
                 if (!className.equals("org/sonatype/licensing/internal/DefaultLicenseManager") &&
                     !className.equals("org/sonatype/licensing/trial/internal/DefaultTrialLicenseManager") &&
-                    !className.equals("org/sonatype/licensing/internal/DefaultFeatureValidator")) {
+                    !className.equals("org/sonatype/licensing/internal/DefaultFeatureValidator") &&
+                    !className.equals("org/sonatype/licensing/product/internal/DefaultLicenseFeatureVerifier")) {
                     return null;
                 }
                 
@@ -54,6 +55,13 @@ public class NexusLicenseAgent {
                     if (className.equals("org/sonatype/licensing/internal/DefaultFeatureValidator")) {
                         byte[] result = patchDefaultFeatureValidator(classfileBuffer);
                         System.out.println("[NexusLicenseAgent] Successfully patched DefaultFeatureValidator");
+                        System.out.flush();
+                        return result;
+                    }
+
+                    if (className.equals("org/sonatype/licensing/product/internal/DefaultLicenseFeatureVerifier")) {
+                        byte[] result = patchDefaultLicenseFeatureVerifier(classfileBuffer);
+                        System.out.println("[NexusLicenseAgent] Successfully patched DefaultLicenseFeatureVerifier");
                         System.out.flush();
                         return result;
                     }
@@ -205,6 +213,37 @@ public class NexusLicenseAgent {
         return ctClass.toBytecode();
     }
     
+    /**
+     * The editions (PRO/PRO+/ENTERPRISE) are selected at startup via
+     * DefaultLicenseFeatureVerifier.verify(Feature), which returns
+     * {@code valid && featureValidator.isValid(feature, key)}. Its internal "valid"
+     * flag is only set to true later by the PeriodicLicenseValidator, so at boot no
+     * licensed edition is active and Nexus starts as COMMUNITY/PRO without the
+     * enterprise-only modules (e.g. the Global Distribution REST endpoints).
+     * Patching verify() to always return true makes Nexus start with the ENTERPRISE edition.
+     */
+    private static byte[] patchDefaultLicenseFeatureVerifier(byte[] originalBytecode) throws Exception {
+        System.out.println("[NexusLicenseAgent] In patchDefaultLicenseFeatureVerifier");
+        System.out.flush();
+
+        ClassPool pool = ClassPool.getDefault();
+        CtClass ctClass = pool.makeClass(new java.io.ByteArrayInputStream(originalBytecode));
+
+        for (CtMethod method : ctClass.getDeclaredMethods()) {
+            if (method.getName().equals("verify")) {
+                method.setBody("return true;");
+                System.out.println("[NexusLicenseAgent] - verify patched");
+            } else if (method.getName().equals("verifyLicenseAndFeature")) {
+                method.setBody("{}");
+                System.out.println("[NexusLicenseAgent] - verifyLicenseAndFeature patched");
+            }
+        }
+
+        System.out.flush();
+        System.err.flush();
+        return ctClass.toBytecode();
+    }
+
     private static byte[] patchDefaultFeatureValidator(byte[] originalBytecode) throws Exception {
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.makeClass(new java.io.ByteArrayInputStream(originalBytecode));

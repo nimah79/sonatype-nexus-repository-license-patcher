@@ -1,6 +1,6 @@
 services:
   nexus:
-    image: sonatype/nexus3:3.98.1-alpine
+    image: sonatype/nexus3:3.98.3-alpine
     volumes:
       - "./nexus-data:/opt/sonatype/sonatype-work"
       - "./nexus-repository-license-bypass-agent-1.0.jar:/opt/sonatype/nexus/bin/nexus-repository-license-bypass-agent-1.0.jar"
